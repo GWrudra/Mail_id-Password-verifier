@@ -1,50 +1,42 @@
 import re
 
-def email():
+def get_email():
     while True:
-        email_id = input("Enter your email ID: ")
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        if re.match(pattern, email_id) is not None:
-            print("Email created")
-            break
-        else:
-            print("Please enter a valid email.")
+        email = input("Enter your email ID: ")
+        if re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+            print("Email accepted!")
+            return email
+        print("Invalid email format — try again.")
 
-
-def check(key):
-    if len(key) < 8:
-        print("Password strength should be at least 8 characters.")
-        return True
-    elif not any(char.isdigit() for char in key):
-        print("Password should contain at least one number.")
-        return True
-    elif not any(char.islower() for char in key):
-        print("Password should contain at least one lowercase letter.")
-        return True
-    elif not any(char.isupper() for char in key):
-        print("Password should contain at least one uppercase letter.")
-        return True
-    elif not any(char in '!@#$%^&*_:"?' for char in key):
-        print("Password should contain at least one special character.")
-        return True
-    else:
-        print("Password created successfully.")
+def valid_password(pw):
+    if len(pw) < 8:
+        print("Must be at least 8 characters.")
         return False
+    if not any(c.isdigit() for c in pw):
+        print("Must contain a digit.")
+        return False
+    if not any(c.islower() for c in pw):
+        print("Must contain a lowercase letter.")
+        return False
+    if not any(c.isupper() for c in pw):
+        print("Must contain an uppercase letter.")
+        return False
+    if not any(c in "!@#$%^&*_-+?." for c in pw):
+        print("Must contain a special character.")
+        return False
+    return True
 
-
-def password():
-    res = True
-    while res:
-        pasw = input("\nEnter your password: ")
-        res = check(pasw)
+def get_password():
     while True:
-        confirm_pass = input("\nPlease confirm your password: ")
-        if pasw == confirm_pass:
-            print("Email and password generated successfully.")
-            break
-        else:
-            print("Passwords do not match. Please try again.")
+        pw = input("Enter a strong password: ")
+        if valid_password(pw):
+            confirm = input("Confirm password: ")
+            if pw == confirm:
+                print("Password confirmed!")
+                return pw
+            print("Passwords don’t match. Try again.")
 
-
-email()
-password()
+if __name__ == "__main__":
+    get_email()
+    get_password()
+    print("\nDone ✅")
